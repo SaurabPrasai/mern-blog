@@ -11,9 +11,9 @@ const app = express();
 
 //database connecteion
 mongoose.connect(process.env.MONGO_URI_STRING)
-.then(()=>{
-    console.log("MongoDb Connected");
-})
+.then(()=>app.listen(3000, () => {
+  console.log("Listening on port 3000!");
+}))
 .catch((err)=>console.log(err))
 
 //middleware
@@ -21,12 +21,22 @@ app.use(express.json())
 app.use('/api/user/',userRouter)
 app.use('/api/auth',authRouter)
 
-app.listen(3000, () => {
-  console.log("Listening on port 3000!");
-});
-
-
-app.get("/",(req,res)=>{
-  res.send("From home page")
+app.use((err,req,res,next)=>{
+ const statusCode=err.statusCode||500;
+ const message=err.message||"Internal Server Error"
+ res.status(statusCode).json({
+  success:false,
+  statusCode,
+  message
+ })
 })
+
+
+
+
+
+
+
+
+
 
