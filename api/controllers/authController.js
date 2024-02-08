@@ -31,3 +31,24 @@ export const signup = async (req, res, next) => {
     next(error)
   }
 };
+
+
+export const signin=async(req,res,next)=>{
+  const {email,password}=req.body;
+  try {
+     if(!email||!password||email===""||password===""){
+      next(errorHandler(400,"All fields are required"))
+     }
+     let user;
+     user=await User.findOne({email})
+     if(!user){
+      next(errorHandler(400,"Please enter an valid email"))
+     }
+     const isMatchPassword=bcryptjs.compareSync(password,user.password)
+    
+    //  performing other task
+
+  } catch (error) {
+    next(error)
+  }
+}
