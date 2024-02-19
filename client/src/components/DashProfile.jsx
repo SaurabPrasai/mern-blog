@@ -1,7 +1,7 @@
 import { Button, TextInput } from "flowbite-react";
 import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
-import {getStorage} from 'firebase/storage'
+import {getStorage, ref, uploadBytesResumable} from 'firebase/storage'
 import {app} from '../firebase'
 export default function DashProfile() {
   const { currentUser } = useSelector((state) => state.user);
@@ -24,7 +24,10 @@ export default function DashProfile() {
 
   const uploadImage = async () => {
     const storage=getStorage(app)
-    console.log(storage);
+    const fileName=new Date().getTime()+imageFile.name
+    const storageRef=ref(storage,fileName)
+    const uploadTask=uploadBytesResumable(storageRef,imageFile)
+    console.log(uploadTask);
   };
 
   return (
