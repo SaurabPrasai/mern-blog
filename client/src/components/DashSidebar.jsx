@@ -1,8 +1,6 @@
 import { Sidebar } from "flowbite-react";
 import {
-  HiArrowSmDown,
   HiArrowSmRight,
-  HiChartPie,
   HiUser,
 } from "react-icons/hi";
 import { useEffect, useState } from "react";
