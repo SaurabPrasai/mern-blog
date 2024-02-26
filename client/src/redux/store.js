@@ -4,10 +4,12 @@ import {persistReducer, persistStore} from "redux-persist"
 import storage from 'redux-persist/lib/storage'
 import themeReducer from './theme/themeSlice'
 
+// combining multiple reducer
 const rootReducer=combineReducers({
   user:userReducer,
   theme:themeReducer
 })
+// storing in local storage
 const persistConfig={
   key:'root',
   storage,
