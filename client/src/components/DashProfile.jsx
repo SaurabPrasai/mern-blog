@@ -14,6 +14,7 @@ import "react-circular-progressbar/dist/styles.css";
 export default function DashProfile() {
   const { currentUser } = useSelector((state) => state.user);
   const dispatch=useDispatch()
+  const [userUpdateSuccess,setUserUpdateSuccess]=useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadingProcess, setImageFileUploadingProcess] =
@@ -72,8 +73,10 @@ export default function DashProfile() {
   };
 
   const handleSubmit = async (e) => {
+    setUserUpdateSuccess(null)
     e.preventDefault();
     if (Object.keys(formData).length === 0) {
+      setUserUpdateSuccess("No Changes Made")
       return;
     }
     try {
@@ -86,11 +89,12 @@ export default function DashProfile() {
         body: JSON.stringify(formData),
       });
     const data=await res.json()
-    console.log(data);
     if(!res.ok){
+      setUserUpdateSuccess(data.message)
      dispatch(updateFailure(data.message))
     }else{
       dispatch(updateSuccess(data))
+      setUserUpdateSuccess("User data update sucessfully")
     }
     } catch (error) {
       dispatch(updateFailure(error.message))
@@ -98,8 +102,8 @@ export default function DashProfile() {
   
 
   };
-
   console.log(formData);
+
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className="my-7 text-center font-semibold text-3xl">profile</h1>
@@ -179,6 +183,13 @@ export default function DashProfile() {
         <span className="cursor-pointer">Delete Account</span>
         <span className="cursor-pointer">Sign Out</span>
       </div>
+      {
+        userUpdateSuccess && (
+          <Alert color={"success"} className="mt-5">
+            {userUpdateSuccess}
+          </Alert>
+        )
+      }
     </div>
   );
 }
