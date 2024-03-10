@@ -50,7 +50,7 @@ export const signin = async (req, res, next) => {
     }
 
     // jwt token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user._id,isAdmin:user.isAdmin }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
 
@@ -73,7 +73,7 @@ export const google = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (user) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      const token = jwt.sign({ id: user._id,isAdmin:user.isAdmin }, process.env.JWT_SECRET, {
         expiresIn: "1d",
       });
       const { password, ...rest } = user._doc;
@@ -95,7 +95,7 @@ export const google = async (req, res) => {
         profilePicture: googlePhotoUrl,
       });
       if (newUser) {
-        const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+        const token = jwt.sign({ id: newUser._id,isAdmin:newUser.isAdmin }, process.env.JWT_SECRET, {
           expiresIn: "1d",
         });
         const { password, ...rest } = newUser._doc;
