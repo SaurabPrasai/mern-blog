@@ -1,6 +1,7 @@
 import { Alert, Button, Modal, TextInput } from "flowbite-react";
 import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {Link} from 'react-router-dom'
 import {
   updateStart,
   updateSuccess,
@@ -221,6 +222,17 @@ if(!res.ok){
         <Button type="submit" gradientDuoTone={"purpleToBlue"} outline>
           Update
         </Button>
+        {
+          currentUser.isAdmin&&<Link to={'/create-post'}>
+          <Button
+          type="button"
+          gradientDuoTone={"purpleToPink"}
+          className="w-full"
+          >
+            Create a post
+          </Button>
+          </Link>
+        }
       </form>
       <div className="text-red-500 flex justify-between mt-5">
         <span className="cursor-pointer" onClick={() => setShowModel(true)}>
